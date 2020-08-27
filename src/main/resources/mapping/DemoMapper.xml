@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DemoMapper">
+
+	<resultMap id="ResultMap" type="com.example.entity.DemoDTO" >
+	  <result column="s1" jdbcType="INTEGER" property="s1" />
+	  <result column="s2" jdbcType="VARCHAR" property="s2" />
+	  <result column="s3" jdbcType="VARCHAR" property="s3" />
+	  <result column="s4" jdbcType="VARCHAR" property="s4" />
+	</resultMap>
+
+	<update id="createHiveTable">
+		CREATE TABLE IF NOT EXISTS hive_test
+		(
+		s1 int,
+		s2 string,
+		s3 string,
+		s4 string
+		) row format delimited fields terminated by '|'
+	</update>
+
+	<insert id="insertHive" parameterType="com.example.entity.DemoDTO">
+		insert into hive_test values (${s1},#{s2},#{s3},#{s4})
+	</insert>
+	
+	<!-- 映射不成功，因为结果集的列头携带表名信息，如：hive_test.s1映射到hive_test的s1属性将报错。所以select需要指定具体的列名或者指定别名 -->
+	<!-- https://issues.apache.org/jira/browse/HIVE-10531 -->
+	<!-- resultType="java.util.HashMap" --> 
+	<!-- resultMap="ResultMap" -->
+	<!-- resultType="com.example.entity.DemoDTO" -->
+	<select id="queryHive" resultType="java.util.HashMap" >
+		select s1,s2,s3,s4 from hive_test where 1=1
+	</select>
+
+	<update id="createHbaseTable">
+		CREATE TABLE IF NOT EXISTS hbase_test
+		(
+		s1 varchar not
+		null primary key,
+		s2 varchar,
+		s3 varchar,
+		s4 varchar
+		) column_encoded_bytes=0
+	</update>
+
+	<insert id="insertHbase" parameterType="com.example.entity.DemoDTO">
+		upsert into hbase_test values (${s1},#{s2},#{s3},#{s4})
+	</insert>
+	
+	<select id="queryHbase" resultType="java.util.HashMap">
+		select * from hbase_test
+	</select>
+</mapper>
