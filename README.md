@@ -13,6 +13,7 @@
 	请参照：
 
 	https://gaoming.blog.csdn.net/article/details/107399914
+	
 	https://gaoming.blog.csdn.net/article/details/107516702
 
 - `Presto`安装
@@ -20,8 +21,6 @@
 	请参照：https://gaoming.blog.csdn.net/article/details/108194479
 
 - `Phoenix`安装
-
-- `shade-phoenix-client`安装
 
 ## 集群环境说明
 
